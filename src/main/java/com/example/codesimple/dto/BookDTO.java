@@ -1,6 +1,7 @@
 package com.example.codesimple.dto;
 
 import com.example.codesimple.entity.Author;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class BookDTO {
     private String desc;
     private Integer yearOfPublication;
     private String bookType;
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<AuthorDTO> authors;
 
     public Long getId() {
