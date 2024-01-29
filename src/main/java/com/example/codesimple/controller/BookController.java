@@ -55,4 +55,10 @@ public class BookController {
     public APIResponse getBooksByRawQuery(@RequestParam("yop") Set<Integer> yop){
         return bookService.getBooksByRawQuery(yop);
     }
+
+    //Exception
+    @GetMapping("/caughtException")
+    public APIResponse getCaughtException(@RequestParam("number") Integer yop){
+        return bookService.getCaughtException(yop);
+    }
 }
