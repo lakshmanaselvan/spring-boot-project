@@ -2,6 +2,8 @@ package com.example.codesimple.service;
 
 
 import com.example.codesimple.common.APIResponse;
+import com.example.codesimple.common.BadRequestException;
+import com.example.codesimple.common.Error;
 import com.example.codesimple.data.BookData;
 import com.example.codesimple.dto.AuthorDTO;
 import com.example.codesimple.dto.BookDTO;
@@ -11,6 +13,7 @@ import com.example.codesimple.entity.BookAuthor;
 import com.example.codesimple.repository.AuthorRepository;
 import com.example.codesimple.repository.BookAuthorRepository;
 import com.example.codesimple.repository.BookRepository;
+import com.example.codesimple.validator.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,9 @@ public class BookService {
 
     @Autowired
     private BookAuthorRepository bookAuthorRepository;
+
+    @Autowired
+    private BookValidator bookValidator;
     //static List<Book> bookList = Arrays.asList(
     //        new Book(1,"2 states","desc of 2 states",2007,"fiction"),
     //        new Book(2,"3 states","desc of 3 states",2007,"fiction")
@@ -32,6 +38,14 @@ public class BookService {
 
     //create data
     public Book createBook(Book book) {
+
+        //validation
+        List<Error> errors = bookValidator.validateCreateBookRequest(book);
+        //if not success
+        if(errors.size() > 0 ){
+            throw new BadRequestException("Bad Request",errors);
+        }
+        //if success
         return bookRepository.save(book);
     }
     //delete data
