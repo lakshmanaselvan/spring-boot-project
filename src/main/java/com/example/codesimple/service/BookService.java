@@ -23,7 +23,6 @@ public class BookService {
     private BookRepository bookRepository;
 
 
-
     @Autowired
     private BookAuthorRepository bookAuthorRepository;
     //static List<Book> bookList = Arrays.asList(
@@ -32,31 +31,31 @@ public class BookService {
     //);//db call
 
     //create data
-    public Book createBook(Book book){
+    public Book createBook(Book book) {
         return bookRepository.save(book);
     }
     //delete data
 
     //get data
-    public List<Book> getBooks(Set<Integer> yop, String bookType){
+    public List<Book> getBooks(Set<Integer> yop, String bookType) {
 
         List<Book> bookList = new ArrayList<>();
 
-        if (yop == null){
+        if (yop == null) {
             bookRepository.findAll().forEach(book -> bookList.add(book));
-        }else{
+        } else {
             return bookRepository.findAllByYearOfPublicationInAndBookType(yop, bookType);
         }
         return bookList;
     }
 
     //getting single data form the database
-    public Book getBookById(Long bookId){
+    public Book getBookById(Long bookId) {
         return bookRepository.findBookById(bookId);
     }
 
     //update data
-    public Book updateBook(Book incomingBook){
+    public Book updateBook(Book incomingBook) {
         return bookRepository.save(incomingBook);
     }
 
@@ -76,9 +75,9 @@ public class BookService {
         List<BookAuthor> bookAuthors = null;
         book = bookRepository.findBookById(id);
 
-        if(authorData){
+        if (authorData) {
 
-          bookAuthors =  bookAuthorRepository.findAllByBookId(id);
+            bookAuthors = bookAuthorRepository.findAllByBookId(id);
         }
         //set book details
         BookDTO bookDTO = new BookDTO();
@@ -90,8 +89,8 @@ public class BookService {
 
         //get author details
         List<AuthorDTO> authorDTOList = new ArrayList<>();
-        if(bookAuthors != null){
-            for(BookAuthor bookAuthor:bookAuthors){
+        if (bookAuthors != null) {
+            for (BookAuthor bookAuthor : bookAuthors) {
                 Author author = bookAuthor.getAuthor();
                 AuthorDTO authorDTO = new AuthorDTO();
                 authorDTO.setId(author.getId());
@@ -103,5 +102,6 @@ public class BookService {
             }
             bookDTO.setAuthors(authorDTOList);
         }
-        return  bookDTO;
+        return bookDTO;
     }
+}
