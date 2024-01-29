@@ -14,9 +14,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 
 
-    Book findBookById(@PathParam("id") Integer bookid);
+    Book findBookById(@PathParam("id") Long bookid);
 
-    void deleteById(Integer id);
+    void deleteById(Long id);
 
     List<Book> findAllByYearOfPublicationInAndBookType(Set<Integer> yop, String bookType);
 

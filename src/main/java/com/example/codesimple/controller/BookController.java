@@ -1,5 +1,6 @@
 package com.example.codesimple.controller;
 
+import com.example.codesimple.dto.BookDTO;
 import com.example.codesimple.entity.Book;
 import com.example.codesimple.service.BookService;
 import jakarta.websocket.server.PathParam;
@@ -29,7 +30,7 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}")
-    public Book getBookById(@PathVariable Integer id){
+    public Book getBookById(@PathVariable Long id){
         return bookService.getBookById(id);
     }
 
@@ -39,12 +40,18 @@ public class BookController {
     }
 
     @DeleteMapping("/books/delete/{id}")
-    public String deleteByBookId(@PathVariable Integer id){
+    public String deleteByBookId(@PathVariable Long id){
         return bookService.deleteByBookId(id);
     }
 
     @GetMapping("/books/raw")
     public List<Book> getBooksByRawQuery(@RequestParam("yop") Set<Integer> yop){
         return bookService.getBooksByRawQuery(yop);
+    }
+
+    //bookAuthor Data
+    @GetMapping("/books/author/{id}")
+    public BookDTO getBookId(@PathVariable Long id, @RequestParam(value = "authorData", required = false) boolean authorData){
+        return bookService.getBookAuthorById(id, authorData);
     }
 }
