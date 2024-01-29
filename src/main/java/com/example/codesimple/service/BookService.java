@@ -1,6 +1,8 @@
 package com.example.codesimple.service;
 
 
+import com.example.codesimple.common.APIResponse;
+import com.example.codesimple.data.BookData;
 import com.example.codesimple.dto.AuthorDTO;
 import com.example.codesimple.dto.BookDTO;
 import com.example.codesimple.entity.Author;
@@ -12,9 +14,7 @@ import com.example.codesimple.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class BookService {
@@ -64,9 +64,24 @@ public class BookService {
         return "Deleted Successfully";
     }
 
-    public List<Book> getBooksByRawQuery(Set<Integer> yop) {
+    public APIResponse getBooksByRawQuery(Set<Integer> yop) {
+        APIResponse apiResponse = new APIResponse();
+
+        //db call
         List<Book> bookList = bookRepository.findAllByYearOfPublicationIn(yop);
-        return bookList;
+
+//        Mapping Process
+//        Map data = new HashMap();
+//        data.put("books", bookList);
+
+        // set Data
+        BookData bookData = new BookData();
+        bookData.setBooks(bookList);
+
+        //set API Response
+
+        apiResponse.setData(bookData);
+        return apiResponse;
     }
 
     public BookDTO getBookAuthorById(Long id, boolean authorData) {

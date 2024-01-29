@@ -1,5 +1,6 @@
 package com.example.codesimple.controller;
 
+import com.example.codesimple.common.APIResponse;
 import com.example.codesimple.dto.BookDTO;
 import com.example.codesimple.entity.Book;
 import com.example.codesimple.service.BookService;
@@ -44,14 +45,14 @@ public class BookController {
         return bookService.deleteByBookId(id);
     }
 
-    @GetMapping("/books/raw")
-    public List<Book> getBooksByRawQuery(@RequestParam("yop") Set<Integer> yop){
-        return bookService.getBooksByRawQuery(yop);
-    }
-
     //bookAuthor Data
     @GetMapping("/books/author/{id}")
     public BookDTO getBookId(@PathVariable Long id, @RequestParam(value = "authorData", required = false) boolean authorData){
         return bookService.getBookAuthorById(id, authorData);
+    }
+
+    @GetMapping("/books/raw")
+    public APIResponse getBooksByRawQuery(@RequestParam("yop") Set<Integer> yop){
+        return bookService.getBooksByRawQuery(yop);
     }
 }
